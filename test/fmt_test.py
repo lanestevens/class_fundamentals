@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# Step-by-step testing for the CsvFormatter class.
+
 import os
 import sys
 import textwrap

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# Implements a class to modify the format of input data to produce output data.
 
 class CsvFormatter:
     def __init__(self, format_map):
