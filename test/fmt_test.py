@@ -52,16 +52,23 @@ def test_fmt_exists():
     """
     It should include a file named ./src/fmt.py
     """
-    cwd = os.getcwd()
-    msg = 'The file {:s}/src/fmt.py is expected. Create this file per the task instructions.'.format(cwd)
-    assert os.path.isfile('./src/fmt.py'), format_msg(msg)
+    try:
+        from src.fmt import CsvFormatter
+    except ModuleNotFoundError as e:
+        cwd = os.getcwd()
+        expected_file = os.path.join(cwd, 'src', 'fmt.py')
+        msg = 'The file {:s} is expected but missing.  Create this file per the task instructions'.format(expected_file)
+        assert False, format_msg(msg)
+    except ImportError:
+        pass
 
 def test_class_exists():
     """
     It should create a class named CsvFormatter.
     """
     cwd = os.getcwd()
-    msg = 'The file {:s}/src/fmt.py is expected to define the class CsvFormatter.  Create this class per the task instructions'.format(cwd)
+    the_file = os.path.join(cwd, 'src', 'fmt.py')
+    msg = 'The file {:s} is expected to define the class CsvFormatter.  Create this class per the task instructions'.format(the_file)
     assert CsvFormatter, format_msg(msg)
 
 def test_override_init_method():
@@ -72,7 +79,7 @@ def test_override_init_method():
         CsvFormatter(1)
     except TypeError as e:
         msg = 'It is expected that you will override the __init__ method with a method of 1 parameter.  Please see the task instructions'
-        assert e.args[0] != 'object() takes no parameters', format_msg(msg)
+        assert e.args and e.args[0] != 'object() takes no parameters', format_msg(msg)
         
 def test_init_type_error():
     """
@@ -84,9 +91,16 @@ def test_init_type_error():
             msg = 'The __init__ method must raise a TypeError if the parameter is not a dictionary instance'
             assert False, format_msg(msg)
         except TypeError as e:
+            if not e.args:
+                msg = 'It is expected that a message be provided with the TypeError exception, but one was not provided'
+                assert False, format_msg(msg)
             if e.args[0] == 'object() takes no parameters':
                 msg = 'It is expected that you will override the __init__ method with a method of 1 parameter.  Please see the task instructions'
                 assert False, format_msg(msg)
+            if e.args[0] == '__init__() takes 1 positional argument but 2 were given':
+                msg = 'There is a parameter error.  The __init__ method needs two parameters:  the object reference "self" and the format_map, but only one parameter has been specified.'
+                assert False, format_msg(msg)
+                
             msg = 'The exception message is expected to be:  "The format_map parameter provided to instantiate the class must be a dictionary"'
             assert e.args[0] == 'The format_map parameter provided to instantiate the class must be a dictionary', format_msg(msg)
 
