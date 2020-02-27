@@ -280,6 +280,45 @@ def test_fmt_thousands_us_currency_success():
         msg = 'The expected result was not produced:  Your result: {:s} != Expected result: {:s}'.format(result, expected_result)
         assert result == expected_result, format_msg(msg)
 
+def test_has_fmt_integer():
+    """
+    It should have a method named _fmt_integer
+    """
+    csv_formatter = CsvFormatter({})
+    msg = 'The class must have a method named _fmt_integer'
+    assert hasattr(csv_formatter, '_fmt_integer'), format_msg(msg)
+
+def test_fmt_integer_value_error():
+    """
+    It should raise a ValueError exception if the value is not an integer.
+    """
+    csv_formatter = CsvFormatter({})
+    for test_case in ('bad', None):
+        try:
+            csv_formatter._fmt_integer(test_case)
+            msg = 'The _fmt_integer must raise an exception when the value is not a representation of an integer'
+            assert False, format_msg(msg)
+        except ValueError as e:
+            if not e.args:
+                msg = 'It is expected that the ValueError exception include a descriptive message, but none was provided'
+                assert False, format_msg(msg)
+
+            expected_message = 'The value "{:s}" is not valid for the integer formatter'.format(str(test_case))
+            msg = 'The exception message did not match the expected message:  Your message: {:s} != Expected message {:s}'.format(e.args[0], expected_message)
+            assert expected_message == e.args[0], format_msg(msg)
+
+def test_fmt_integer():
+    """
+    It should return a value formatted as an integer with commas grouping thousands.
+    """
+    csv_formatter = CsvFormatter({})
+    expected_result = '12345'
+    result = csv_formatter._fmt_integer('012345')
+    msg = 'The _fmt_integer method must return a formatted string, not None'
+    assert result is not None, format_msg(msg)
+    msg = 'The expected result was not produced:  Your result: {:s} != Expected result: {:s}'.format(result, expected_result)
+    assert result == expected_result, format_msg(msg)
+
 def test_has_fmt_thousands_integer():
     """
     It should have a method _fmt_thousands_integer
@@ -320,45 +359,6 @@ def test_fmt_thousands_integer():
     assert result == expected_result, format_msg(msg)
 
     
-def test_has_fmt_integer():
-    """
-    It should have a method named _fmt_integer
-    """
-    csv_formatter = CsvFormatter({})
-    msg = 'The class must have a method named _fmt_integer'
-    assert hasattr(csv_formatter, '_fmt_integer'), format_msg(msg)
-
-def test_fmt_integer_value_error():
-    """
-    It should raise a ValueError exception if the value is not an integer.
-    """
-    csv_formatter = CsvFormatter({})
-    for test_case in ('bad', None):
-        try:
-            csv_formatter._fmt_integer(test_case)
-            msg = 'The _fmt_integer must raise an exception when the value is not a representation of an integer'
-            assert False, format_msg(msg)
-        except ValueError as e:
-            if not e.args:
-                msg = 'It is expected that the ValueError exception include a descriptive message, but none was provided'
-                assert False, format_msg(msg)
-
-            expected_message = 'The value "{:s}" is not valid for the integer formatter'.format(str(test_case))
-            msg = 'The exception message did not match the expected message:  Your message: {:s} != Expected message {:s}'.format(e.args[0], expected_message)
-            assert expected_message == e.args[0], format_msg(msg)
-
-def test_fmt_integer():
-    """
-    It should return a value formatted as an integer with commas grouping thousands.
-    """
-    csv_formatter = CsvFormatter({})
-    expected_result = '12345'
-    result = csv_formatter._fmt_integer('012345')
-    msg = 'The _fmt_integer method must return a formatted string, not None'
-    assert result is not None, format_msg(msg)
-    msg = 'The expected result was not produced:  Your result: {:s} != Expected result: {:s}'.format(result, expected_result)
-    assert result == expected_result, format_msg(msg)
-
 def test_has_format_method():
     """
     It should have an __exec__ method

@@ -52,16 +52,6 @@ class CsvFormatter:
         except (ValueError, TypeError) as e:
             raise ValueError('The value "{:s}" is not valid for the thousands_us_currency formatter'.format(str(val)))
 
-    def _fmt_thousands_integer(self, val):
-        """
-        This formatter returns the value formatted with commas separating the thousands.
-        """
-        try:
-            the_integer = int(val)
-            return '{:,d}'.format(the_integer)
-        except (ValueError, TypeError) as e:
-            raise ValueError('The value "{:s}" is not valid for the thousands_integer formatter'.format(str(val)))
-        
     def _fmt_integer(self, val):
         """
         This formatter returns the value formatted as an integer.
@@ -72,6 +62,16 @@ class CsvFormatter:
         except (ValueError, TypeError) as e:
             raise ValueError('The value "{:s}" is not valid for the integer formatter'.format(str(val)))
 
+    def _fmt_thousands_integer(self, val):
+        """
+        This formatter returns the value formatted with commas separating the thousands.
+        """
+        try:
+            the_integer = int(val)
+            return '{:,d}'.format(the_integer)
+        except (ValueError, TypeError) as e:
+            raise ValueError('The value "{:s}" is not valid for the thousands_integer formatter'.format(str(val)))
+        
     def format(self, record):
         """
         Applies the formatting rules to the specified record.
