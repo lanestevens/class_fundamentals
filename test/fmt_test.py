@@ -440,6 +440,29 @@ def test_format_with_one_exception():
     msg = 'The formatted record does not match the expected formatting'
     assert result[1] == expected_record, format_msg(msg)
     
+def test_preserve_original():
+    """
+    It should not modify the source record.
+    """
+    format_map = {'column1': 'integer',
+                  'column2': 'thousands_integer',
+                  'column3': 'us_currency',
+                  }
+
+    csv_formatter = CsvFormatter(format_map)
+    record = {'column1': '012345',
+              'column2': 'many',
+              'column3': '1.23',
+              }
+    original_record = record.copy()
+    expected_record = {'column1': '12345',
+                       'column2': 'many',
+                       'column3': '$1.23',
+                       }
+    result = csv_formatter.format(record)
+    msg = 'The format method must not modify the original record'
+    assert record == original_record, format_msg(msg)
+    
 def test_format_full_success():
     """
     It should return an empty list of failures and a fully modified record when no exceptions.

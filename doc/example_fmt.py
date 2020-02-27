@@ -83,10 +83,12 @@ class CsvFormatter:
         if not isinstance(record, dict):
             raise TypeError('The record parameter must be a dictionary')
 
+        new_record = {}
         failed_formats = []
         for key in record.keys():
             try:
-                record[key] = getattr(self, '_fmt_{:s}'.format(self.format_map.get(key, 'default')))(record[key])
+                new_record[key] = getattr(self, '_fmt_{:s}'.format(self.format_map.get(key, 'default')))(record[key])
             except ValueError as e:
                 failed_formats.append(key)
-        return sorted(failed_formats), record
+                new_record[key] = record[key]
+        return sorted(failed_formats), new_record
