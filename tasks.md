@@ -109,8 +109,8 @@ The following is an example of code that will check the type of the _format\_map
 similar to this will be required to get the next failing test to pass.
 
 ```python
-if not isinstance(format_map, dict):
-    raise TypeError('The format_map parameter provided to instantiate the class must be a dictionary')
+        if not isinstance(format_map, dict):
+            raise TypeError('The format_map parameter provided to instantiate the class must be a dictionary')
 ```
 #### Step 3 - Initialize state
 In order to keep the value of the format\_map for subsequent usage it must become part of the state of the _CsvFormatter_
@@ -123,7 +123,7 @@ specified as a requirement is so to support the tests.
 The following is a statement that would follow the type check in the \_\_init\_\_ method.  On the left side of the assignment
 we create a new attribute on self and assign the value of the passed format\_map parameter.
 ```python
-self.format_map = format_map
+        self.format_map = format_map
 ```
 
 At this point, your \_\_init\_\_ method should look something like the following:
@@ -175,16 +175,16 @@ To get the next three failing tests to pass, the method must exist, it must corr
 and it must correctly detect valid format\_maps.
 
 ```python
-def _verify_map(self, format_map):
-    valid_formats = {'default', 'us_currency', 'thousands_us_currency', 'thousands_integer', 'integer'}
-    invalid_formats = set([])
-    for value in format_map.values():
-        if not value in valid_formats:
-            invalid_formats.add(value)
-
-    if invalid_formats:
-        format_names = ', '.join(sorted(invalid_formats))
-        raise ValueError('Invalid format specifier(s) in map:  {:s}'.format(format_names))
+    def _verify_map(self, format_map):
+        valid_formats = {'default', 'us_currency', 'thousands_us_currency', 'thousands_integer', 'integer'}
+        invalid_formats = set([])
+        for value in format_map.values():
+            if not value in valid_formats:
+                invalid_formats.add(value)
+        
+        if invalid_formats:
+            format_names = ', '.join(sorted(invalid_formats))
+            raise ValueError('Invalid format specifier(s) in map:  {:s}'.format(format_names))
 ```
 
 For consideration:
@@ -198,15 +198,83 @@ method by validating the input.  Adding a call to the _\_verify\_map_ method wil
 failing test to pass.
 
 ```python
-self._verify_map(format_map)
+        self._verify_map(format_map)
 ```
 
 ### Task 4 - Formatters
+For this next task, we'll create the 5 formatter methods that implement that supported formats.  With the exception of the
+default formatter which only has 2 tests, the other formatter methods have 3 tests each:  the method must exist, it must
+correctly raise a ValueError if the input value is not valid for the format specified, and a test for a successful format.
 #### Step 1 - Default Formatter
+__Requirement:__  This is a method that accepts one parameter.
+__Requirement:__  This returns the input value unmodified.
+__Requirement:__  The name of this method is _\_fmt\_default_
+
+```python
+    def _fmt_default(self, val):
+        return val
+```
 #### Step 2 - US Currency Formatter
+__Requirement:__  This is a method that accepts one parameter
+__Requirement:__  This returns the value as a float with a precision of 2 decimal places preceded by a $ character.
+__Requirement:__  The name of this method shall be _\_fmt\_us\_currency_
+__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
+
+```python
+    def _fmt_us_currency(self, val):
+        try:
+            the_float = float(val)
+            return '${:.2f}'.format(the_float)
+        except (ValueError, TypeError) as e:
+            raise ValueError('The value "{:s}" is not valid for the us_currency formatter'.format(str(val)))
+```
+
 #### Step 3 - US Currency with thousands separators formatter
+__Requirement:__  This is a method that accepts one parameter
+__Requirement:__  This returns the value as a float with a precision of 2 decimal places preceded by a $ character and with
+thousands separated by a , character.
+__Requirement:__  The name of this method shall be _\_fmt\_thousands\_us\_currency_
+__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
+
+```python
+    def _fmt_thousands_us_currency(self, val):
+        try:
+            the_float = float(val)
+            return '${:,.2f}'.format(the_float)
+        except (ValueError, TypeError) as e:
+            raise ValueError('The value "{:s}" is not valid for the thousands_us_currency formatter'.format(str(val)))
+```
 #### Step 4 - Integer formatter
+__Requirement:__  This is a method that accepts one parameter
+__Requirement:__  This returns the value as an integer.  This will remove leading zeros and spaces.
+__Requirement:__  The name of this method shall be _\_fmt\_integer_
+__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
+
+```python
+    def _fmt_integer(self, val):
+        try:
+            the_integer = int(val)
+            return '{:d}'.format(the_integer)
+        except (ValueError, TypeError) as e:
+            raise ValueError('The value "{:s}" is not valid for the integer formatter'.format(str(val)))
+
+```
+
 #### Step 5 - Integer with thousands separator formatter
+__Requirement:__  This is a method that accepts one parameter
+__Requirement:__  This returns the value as an integer with commas separating thousands.  This will remove leading zeros and spaces.
+__Requirement:__  The name of this method shall be _\_fmt\_thousands\_integer_
+__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
+
+```python
+    def _fmt_thousands_integer(self, val):
+        try:
+            the_integer = int(val)
+            return '{:,d}'.format(the_integer)
+        except (ValueError, TypeError) as e:
+            raise ValueError('The value "{:s}" is not valid for the thousands_integer formatter'.format(str(val)))
+```
+
 ### Task 5 - The Main Event
 #### Step 1 - Main formatter method
 ### Task 6 - Refactor
