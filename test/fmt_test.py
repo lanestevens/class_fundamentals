@@ -491,6 +491,36 @@ def test_format_full_success():
     msg = 'The formatted record does not match the expected formatting'
     assert result[1] == expected_record, format_msg(msg)
 
+def test_format_full_success_with_unmapped():
+    """
+    It should return an empty list of failures and a fully modified record when no exceptions.
+    """
+    format_map = {'column1': 'integer',
+                  'column2': 'thousands_integer',
+                  'column3': 'us_currency',
+                  }
+
+    csv_formatter = CsvFormatter(format_map)
+    record = {'column1': '012345',
+              'column2': '0654321',
+              'column3': '1.23',
+              'column4': 'woo hoo!',
+              }
+    expected_record = {'column1': '12345',
+                       'column2': '654,321',
+                       'column3': '$1.23',
+                       'column4': 'woo hoo!',
+                       }
+    result = csv_formatter.format(record)
+    msg = 'The result must be a tuple with an empty list of failed columns and the modified record'
+    assert isinstance(result, tuple), format_msg(msg)
+
+    msg = 'The list of columns is empty'
+    assert result[0] == [], format_msg(msg)
+
+    msg = 'The formatted record does not match the expected formatting'
+    assert result[1] == expected_record, format_msg(msg)
+
 def test_verify_uses_methods():
     """
     It should verify dynamically based on the methods of the class rather than a static list.
