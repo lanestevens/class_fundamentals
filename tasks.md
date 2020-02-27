@@ -365,7 +365,7 @@ specifiers to against the methods of the class to determine if the specifier is 
 ```
 
 ### Conclusion
-#### Example dat
+#### Example data
 There is a script in the scripts directory that can be run to process the sample data using the _CsvFormatter_ class you
 have created.
   * Example 1 has bad entries in the map and illustrates how an application might respond to bad data.
