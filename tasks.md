@@ -29,11 +29,12 @@ python -m venv my_project
 ```bash
 cd my_project
 ```
-  * Activate the virtual environment Mac/Linux
+  * Activate the virtual environment
+    * Mac/Linux
 ```bash
 source bin/activate
 ```
-  * Activate the virtual environment Windows
+    * Windows
 ```bash
 Scripts\activate
 ```
