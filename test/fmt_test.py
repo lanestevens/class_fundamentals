@@ -133,6 +133,10 @@ def test_unknown_values():
         msg = 'The _verify_map method must raise an exception if there are invalid format specifiers'
         assert False, format_msg(msg)
     except ValueError as e:
+        if not e.args:
+            msg = 'It is expected that the ValueError exception include a descriptive message, but none was provided'
+            assert False, format_msg(msg)
+            
         expected_message = 'Invalid format specifier(s) in map:  an_unknown, unknown1, unknown2'
         msg = 'Incorrect message returned from the exception:  "{:s}."  The expected message is:  "{:s}."  Please see tasks and requirements'.format(e.args[0], expected_message)
         assert e.args[0] == expected_message, format_msg(msg)
@@ -166,6 +170,10 @@ def test_init_validates_map():
         msg = 'An expected ValueError exception was not raised.  The __init__ method should validate the format_map with the _verify_map method'
         assert False, format_msg(msg)
     except ValueError as e:
+        if not e.args:
+            msg = 'It is expected that the ValueError exception include a descriptive message, but none was provided'
+            assert False, format_msg(msg)
+            
         expected_message = 'Invalid format specifier(s) in map:  unknown1, unknown2'
         msg = 'The ValueError message does not match the expected message:  Your message {:s} != Expected message {:s}'.format(e.args[0], expected_message)
         assert e.args[0] == expected_message, format_msg(msg)
@@ -209,6 +217,10 @@ def test_fmt_us_currency_value_error():
             msg = 'The _fmt_us_currency must raise an exception when the value is not a representation of a floating point number'
             assert False, format_msg(msg)
         except ValueError as e:
+            if not e.args:
+                msg = 'It is expected that the ValueError exception include a descriptive message, but none was provided'
+                assert False, format_msg(msg)
+
             expected_message = 'The value "{:s}" is not valid for the us_currency formatter'.format(str(test_case))
             msg = 'The exception message did not match the expected message:  Your message: {:s} != Expected message {:s}'.format(e.args[0], expected_message)
             assert expected_message == e.args[0], format_msg(msg)
@@ -246,6 +258,10 @@ def test_fmt_thousands_us_currency_value_error():
             msg = 'The _fmt_thousands_us_currency must raise an exception when the value is not a representation of a floating point number'
             assert False, format_msg(msg)
         except ValueError as e:
+            if not e.args:
+                msg = 'It is expected that the ValueError exception include a descriptive message, but none was provided'
+                assert False, format_msg(msg)
+
             expected_message = 'The value "{:s}" is not valid for the thousands_us_currency formatter'.format(str(test_case))
             msg = 'The exception message did not match the expected message:  Your message: {:s} != Expected message {:s}'.format(e.args[0], expected_message)
             assert expected_message == e.args[0], format_msg(msg)
@@ -283,6 +299,10 @@ def test_fmt_thousands_integer_value_error():
             msg = 'The _fmt_thousands_integer must raise an exception when the value is not a representation of an integer'
             assert False, format_msg(msg)
         except ValueError as e:
+            if not e.args:
+                msg = 'It is expected that the ValueError exception include a descriptive message, but none was provided'
+                assert False, format_msg(msg)
+
             expected_message = 'The value "{:s}" is not valid for the thousands_integer formatter'.format(str(test_case))
             msg = 'The exception message did not match the expected message:  Your message: {:s} != Expected message {:s}'.format(e.args[0], expected_message)
             assert expected_message == e.args[0], format_msg(msg)
@@ -319,6 +339,10 @@ def test_fmt_integer_value_error():
             msg = 'The _fmt_integer must raise an exception when the value is not a representation of an integer'
             assert False, format_msg(msg)
         except ValueError as e:
+            if not e.args:
+                msg = 'It is expected that the ValueError exception include a descriptive message, but none was provided'
+                assert False, format_msg(msg)
+
             expected_message = 'The value "{:s}" is not valid for the integer formatter'.format(str(test_case))
             msg = 'The exception message did not match the expected message:  Your message: {:s} != Expected message {:s}'.format(e.args[0], expected_message)
             assert expected_message == e.args[0], format_msg(msg)
@@ -355,6 +379,10 @@ def test_format_type_error():
             msg = 'The method must raise a TypeError if the supplied parameter is not a dictionary'
             assert False, format_msg(msg)
         except TypeError as e:
+            if not e.args:
+                msg = 'It is expected that the TypeError exception include a descriptive message, but none was provided'
+                assert False, format_msg(msg)
+
             expected_message = 'The record parameter must be a dictionary'
             msg = 'Your message:  {:s} != Expected message {:s}'.format(e.args[0], expected_message)
             assert e.args[0] == expected_message, format_msg(msg)
