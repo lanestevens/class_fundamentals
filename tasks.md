@@ -30,8 +30,8 @@ python -m venv my_project
 cd my_project
 ```
   * Activate the virtual environment
-    * Mac/Linux ```bash source bin/activate```
-    * Windows ```bash Scripts\activate```
+    * Mac/Linux ```source bin/activate```
+    * Windows ```Scripts\activate```
   * Clone the project repository as a child of the virtual environment directory.  So, the directory structure will be ./my_project/class_fundamentals
 ```bash
 git clone <project url>
