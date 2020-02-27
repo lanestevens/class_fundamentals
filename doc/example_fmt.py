@@ -12,17 +12,13 @@ class CsvFormatter:
 
     def _verify_map(self, format_map):
         """
-        Validates the format_map looking for unknown format specifiers.  The valid format specifiers are:
-          - default
-          - us_currency
-          - thousands_us_currency
-          - thousands_integer
-          - integer
+        Validates the format_map looking for unknown format specifiers.  The format
+        specifiers are considered to be valid if the instance has a method with a
+        name that matches the pattern _fmt_<format_specifier>.
         """
-        valid_formats = {'default', 'us_currency', 'thousands_us_currency', 'thousands_integer', 'integer'}
         invalid_formats = set([])
         for value in format_map.values():
-            if value not in valid_formats:
+            if not hasattr(self, '_fmt_{:s}'.format(value)):
                 invalid_formats.add(value)
 
         if invalid_formats:

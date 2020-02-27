@@ -490,3 +490,17 @@ def test_format_full_success():
 
     msg = 'The formatted record does not match the expected formatting'
     assert result[1] == expected_record, format_msg(msg)
+
+def test_verify_uses_methods():
+    """
+    It should verify dynamically based on the methods of the class rather than a static list.
+    """
+    class ExtendedCsvFormatter(CsvFormatter):
+        def _fmt_other(self, val):
+            pass
+
+    try:
+        ExtendedCsvFormatter({'column1': 'other'})
+    except ValueError as e:
+        msg = 'The _verify_map method is expected to use the methods to validate the format_map rather than a static list'
+        assert False, format_msg(msg)
