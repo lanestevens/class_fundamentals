@@ -340,4 +340,138 @@ __Requirement:__  Any input columns without formatting specifications shall use 
 Considerations:
   * How does the statement the try block that determines the new value work?
 ### Task 6 - Refactor
+As we gain some experience with a new development effort we may recognize that there are some improvements that can be
+made to the way that a component was designed, or even improvements to the overall application architecture.  In the
+case of this project, we are maintaining a list of format methods, and so should we add support for other formats it will
+be necessary to also update the _\_verify\_map_ method.
+
+The final task is to refactor the _\_verify\_map_ method to use introspection of the _CsvFormatter_ class to determine
+what the supported format specifiers are.
 #### Step 1 - Refactor the validation method to be dynamic
+In order to get the final failing test to pass, we must revise the _\_verify\_map_ method to compare the specified format
+specifiers to against the methods of the class to determine if the specifier is valid or not.
+
+```python
+    def _verify_map(self, format_map):
+        invalid_formats = set([])
+        for value in format_map.values():
+            if not hasattr(self, '_fmt_{:s}'.format(value)):
+                invalid_formats.add(value)
+
+        if invalid_formats:
+            format_names = ', '.join(sorted(invalid_formats))
+            msg = 'Invalid format specifier(s) in map:  {:s}'.format(format_names)
+            raise ValueError(msg)
+```
+
+### Conclusion
+#### Example dat
+There is a script in the scripts directory that can be run to process the sample data using the _CsvFormatter_ class you
+have created.
+  * Example 1 has bad entries in the map and illustrates how an application might respond to bad data.
+  * Example 2 has one good row and one bad row.  The script will write the good rows to stdout and the bad rows to stderr.
+
+
+```bash
+# Illustrates a response to invalid map entries
+python scripts/csvfmt.py -m examples/example_1_map.csv
+# Will display the good row
+python scripts/csvfmt.py -m examples/example_2_map.csv < examples/example_2.csv 2> /dev/null
+# Will display the bad row
+python scripts/csvfmt.py -m examples/example_2_map.csv < examples/example_2.csv > /dev/null
+```
+
+#### Final Solution
+
+```python
+# -*- coding: utf-8 -*-
+
+class CsvFormatter:
+    def __init__(self, format_map):
+        """
+        Validate and initialize the format_map
+        """
+        if not isinstance(format_map, dict):
+            raise TypeError('The format_map parameter provided to instantiate the class must be a dictionary')
+        self._verify_map(format_map)
+        self.format_map = format_map
+
+    def _verify_map(self, format_map):
+        """
+        Validates the format_map looking for unknown format specifiers.  The format
+        specifiers are considered to be valid if the instance has a method with a
+        name that matches the pattern _fmt_<format_specifier>.
+        """
+        invalid_formats = set([])
+        for value in format_map.values():
+            if not hasattr(self, '_fmt_{:s}'.format(value)):
+                invalid_formats.add(value)
+
+        if invalid_formats:
+            format_names = ', '.join(sorted(invalid_formats))
+            msg = 'Invalid format specifier(s) in map:  {:s}'.format(format_names)
+            raise ValueError(msg)
+        
+    def _fmt_default(self, val):
+        """
+        This formatter returns the value unmodified.
+        """
+        return val
+
+    def _fmt_us_currency(self, val):
+        """
+        This formatter returns the value formatted as US currency.
+        """
+        try:
+            the_float = float(val)
+            return '${:.2f}'.format(the_float)
+        except (ValueError, TypeError) as e:
+            raise ValueError('The value "{:s}" is not valid for the us_currency formatter'.format(str(val)))
+
+    def _fmt_thousands_us_currency(self, val):
+        """
+        This formatter returns the value formatted as US currency with a comma as the thousands separator
+        """
+        try:
+            the_float = float(val)
+            return '${:,.2f}'.format(the_float)
+        except (ValueError, TypeError) as e:
+            raise ValueError('The value "{:s}" is not valid for the thousands_us_currency formatter'.format(str(val)))
+
+    def _fmt_integer(self, val):
+        """
+        This formatter returns the value formatted as an integer.
+        """
+        try:
+            the_integer = int(val)
+            return '{:d}'.format(the_integer)
+        except (ValueError, TypeError) as e:
+            raise ValueError('The value "{:s}" is not valid for the integer formatter'.format(str(val)))
+
+    def _fmt_thousands_integer(self, val):
+        """
+        This formatter returns the value formatted with commas separating the thousands.
+        """
+        try:
+            the_integer = int(val)
+            return '{:,d}'.format(the_integer)
+        except (ValueError, TypeError) as e:
+            raise ValueError('The value "{:s}" is not valid for the thousands_integer formatter'.format(str(val)))
+        
+    def format(self, record):
+        """
+        Applies the formatting rules to the specified record.
+        """
+        if not isinstance(record, dict):
+            raise TypeError('The record parameter must be a dictionary')
+
+        new_record = {}
+        failed_formats = []
+        for key in record.keys():
+            try:
+                new_record[key] = getattr(self, '_fmt_{:s}'.format(self.format_map.get(key, 'default')))(record[key])
+            except ValueError as e:
+                failed_formats.append(key)
+                new_record[key] = record[key]
+        return sorted(failed_formats), new_record
+```
