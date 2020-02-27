@@ -336,5 +336,8 @@ __Requirement:__  Any input columns without formatting specifications shall use 
                 new_record[key] = record[key]
         return sorted(failed_formats), new_record
 ```
+
+Considerations:
+  * How does the statement the try block that determines the new value work?
 ### Task 6 - Refactor
 #### Step 1 - Refactor the validation method to be dynamic
