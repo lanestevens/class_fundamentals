@@ -46,37 +46,7 @@ cd class_fundamentals
 ```bash
 pip install -r requirements.txt
 ```
-  * Start tests
-```bash
-ptw -- -x -vv
-```
-
-### Windows
-  * Create a python 3 virtual environment
-```bash
-python -m venv my_project
-```
-  * Change to the virtual environment directory
-```bash
-cd my_project
-```
-  * Activate the virtual environment
-```bash
-Scripts\activate
-```
-  * Clone the project repository as a child of the virtual environment directory.  So, the directory structure will be ./my_project/class_fundamentals
-```bash
-git clone <project url>
-```
-  * Change to the project repository directory
-```bash
-cd class_fundamentals
-```
-  * Install required modules
-```bash
-pip install -r requirements.txt
-```
-  * Start tests
+  * Start tests - the tests will run whenever files are changed.  The failing test is the first step in the tasks below.
 ```bash
 ptw -- -x -vv
 ```
