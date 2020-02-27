@@ -252,6 +252,9 @@ __Requirement:__  This method shall raise a ValueError if the input value does n
         except (ValueError, TypeError) as e:
             raise ValueError('The value "{:s}" is not valid for the thousands_us_currency formatter'.format(str(val)))
 ```
+Considerations:
+  * How is the comma separator formatting controlled?
+
 #### Step 4 - Integer formatter
 __Requirement:__  This is a method that accepts one parameter
 
@@ -288,8 +291,50 @@ __Requirement:__  This method shall raise a ValueError if the input value does n
         except (ValueError, TypeError) as e:
             raise ValueError('The value "{:s}" is not valid for the thousands_integer formatter'.format(str(val)))
 ```
+Considerations
+  * How is the thousands comma separator controlled?
 
 ### Task 5 - The Main Event
+The main point of this class is to take rows of csv data and transform them into new rows based on the specified formatting
+on a column-by-column basis.  Each row is represented by a dictionary where the column name is the key and the value at that
+key is the corresponding value of that column in the row.  This method will be called for each row of data in a csv file.
+
+For this project, the method will return a tuple of two values.  The first value is a list of the column headers for the
+columns that had formatting exceptions raised.  The second value is the modified row.  Any row with a formatting exception
+will remain unchanged from the input row, and all of the other values will be modified according to the rules specified
+in the format\_map.
+
+Any column that does not include a format specifier will have the default rule applied.  The default rule will leave the value
+unchanged.
+
+This is a flexible approach to error handling.  With this, the caller can take any of several actions when an error occurs.
+For example, the offending row could be written to an error file, a notice of the exception could be written and the
+partially modified row could be written to the output, etc.
 #### Step 1 - Main formatter method
+__Requirement:__  This method shall be named _format_.
+
+__Requirement:__  This method shall leave the input dictionary unchanged and will return a copy of the input with the format
+modifications.
+
+__Requirement:__  This method shall return a tuple where the first element is a list of the column names where formatting
+exceptions occurred and the second element is the modified record.
+
+__Requirement:__  Any input columns without formatting specifications shall use the default format rule.
+
+```python
+    def format(self, record):
+        if not isinstance(record, dict):
+            raise TypeError('The record parameter must be a dictionary')
+
+        new_record = {}
+        failed_formats = []
+        for key in record.keys():
+            try:
+                new_record[key] = getattr(self, '_fmt_{:s}'.format(self.format_map.get(key, 'default')))(record[key])
+            except ValueError as e:
+                failed_formats.append(key)
+                new_record[key] = record[key]
+        return sorted(failed_formats), new_record
+```
 ### Task 6 - Refactor
 #### Step 1 - Refactor the validation method to be dynamic
