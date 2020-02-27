@@ -155,10 +155,10 @@ _thousands\_integer_, and _integer_.
 __Requirement:__  This method will raise a _ValueError_ if one or more unsupported format specifiers is found.
 
 __Requirement:__  The message included with the raised exception will include the unsupported format specifiers in alphabetical
-order.  Multiple unsupported format specifiers will be separated by ",<space>" and only one instance of each unsupported
+order.  Multiple unsupported format specifiers will be separated by ",\<space\>" and only one instance of each unsupported
 format specifier will be listed in the message.  The message shall be:
 
-Invalid format specifier(s) in map:<space><space><alphabetical list of unsupported format specifiers>
+Invalid format specifier(s) in map:\<space\>\<space\>\<alphabetical list of unsupported format specifiers\>
 
 __Requirement:__  If no unsupported format specifiers are found, then the method returns _None_.  The default action for a
 function or method without a return statement is to return _None_.
