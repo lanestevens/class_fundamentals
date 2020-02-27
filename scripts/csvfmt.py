@@ -30,7 +30,8 @@ if __name__ == '__main__':
     if CsvFormatter:
         try:
             csv_formatter = CsvFormatter(the_map)
-        except ValueError:
+        except ValueError as e:
+            print(e.args[0], file=sys.stderr)
             print('Error! Unsupported format specifiers in {:s}. Aborting'.format(args.format_map), file=sys.stderr)
             sys.exit(1)
         

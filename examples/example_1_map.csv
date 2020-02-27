@@ -1,4 +1,5 @@
 column,formatter
 column1,integer
-column2,unknown
+column2,another_bad_specifier
 column3,thousands_us_currency
+column4,a_bad_specifier
