@@ -207,7 +207,9 @@ default formatter which only has 2 tests, the other formatter methods have 3 tes
 correctly raise a ValueError if the input value is not valid for the format specified, and a test for a successful format.
 #### Step 1 - Default Formatter
 __Requirement:__  This is a method that accepts one parameter.
+
 __Requirement:__  This returns the input value unmodified.
+
 __Requirement:__  The name of this method is _\_fmt\_default_
 
 ```python
@@ -216,8 +218,11 @@ __Requirement:__  The name of this method is _\_fmt\_default_
 ```
 #### Step 2 - US Currency Formatter
 __Requirement:__  This is a method that accepts one parameter
+
 __Requirement:__  This returns the value as a float with a precision of 2 decimal places preceded by a $ character.
+
 __Requirement:__  The name of this method shall be _\_fmt\_us\_currency_
+
 __Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
 
 ```python
@@ -231,9 +236,12 @@ __Requirement:__  This method shall raise a ValueError if the input value does n
 
 #### Step 3 - US Currency with thousands separators formatter
 __Requirement:__  This is a method that accepts one parameter
+
 __Requirement:__  This returns the value as a float with a precision of 2 decimal places preceded by a $ character and with
 thousands separated by a , character.
+
 __Requirement:__  The name of this method shall be _\_fmt\_thousands\_us\_currency_
+
 __Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
 
 ```python
@@ -246,8 +254,11 @@ __Requirement:__  This method shall raise a ValueError if the input value does n
 ```
 #### Step 4 - Integer formatter
 __Requirement:__  This is a method that accepts one parameter
+
 __Requirement:__  This returns the value as an integer.  This will remove leading zeros and spaces.
+
 __Requirement:__  The name of this method shall be _\_fmt\_integer_
+
 __Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
 
 ```python
@@ -262,8 +273,11 @@ __Requirement:__  This method shall raise a ValueError if the input value does n
 
 #### Step 5 - Integer with thousands separator formatter
 __Requirement:__  This is a method that accepts one parameter
+
 __Requirement:__  This returns the value as an integer with commas separating thousands.  This will remove leading zeros and spaces.
+
 __Requirement:__  The name of this method shall be _\_fmt\_thousands\_integer_
+
 __Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
 
 ```python
