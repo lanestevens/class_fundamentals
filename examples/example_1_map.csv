@@ -1,0 +1,4 @@
+column,formatter
+column1,integer
+column2,unknown
+column3,thousands_us_currency
