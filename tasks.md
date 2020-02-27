@@ -21,6 +21,69 @@ language and software development techniques.
   * Application design
   * Refactoring
 ## Setup
+  * Create a python 3 virtual environment
+```bash
+python -m venv my_project
+```
+  * Change to the virtual environment directory
+```bash
+cd my_project
+```
+  * Activate the virtual environment Mac/Linux
+```bash
+source bin/activate
+```
+  * Activate the virtual environment Windows
+```bash
+Scripts\activate
+```
+  * Clone the project repository as a child of the virtual environment directory.  So, the directory structure will be ./my_project/class_fundamentals
+```bash
+git clone <project url>
+```
+  * Change to the project repository directory
+```bash
+cd class_fundamentals
+```
+  * Install required modules
+```bash
+pip install -r requirements.txt
+```
+  * Start tests
+```bash
+ptw -- -x -vv
+```
+
+### Windows
+  * Create a python 3 virtual environment
+```bash
+python -m venv my_project
+```
+  * Change to the virtual environment directory
+```bash
+cd my_project
+```
+  * Activate the virtual environment
+```bash
+Scripts\activate
+```
+  * Clone the project repository as a child of the virtual environment directory.  So, the directory structure will be ./my_project/class_fundamentals
+```bash
+git clone <project url>
+```
+  * Change to the project repository directory
+```bash
+cd class_fundamentals
+```
+  * Install required modules
+```bash
+pip install -r requirements.txt
+```
+  * Start tests
+```bash
+ptw -- -x -vv
+```
+
 ## Tasks
 ### Task 1 - Create a Class
 #### Step 1 - Create a file
@@ -384,7 +447,7 @@ python scripts/csvfmt.py -m examples/example_2_map.csv < examples/example_2.csv 
 #### Final Solution
 
 ```python
-# -*- coding: utf-8 -*-
+# Implements a class to modify the format of input data to produce output data.
 
 class CsvFormatter:
     def __init__(self, format_map):
