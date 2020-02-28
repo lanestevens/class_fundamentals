@@ -24,9 +24,11 @@ language and software development techniques.
   * String formatting
     * By creating methods that produce formatted strings as their result
     * By formatting exception messages
+    * By using the string format method
+    * By using the string join method
   * Application design
     * By creating a class with multiple methods that work together
-    * By considering how users of the class will interact with the calss
+    * By considering how users of the class will interact with the class
   * Refactoring
     * By changing the internals of a method to enhance the resilience against future changes
 ## Setup
