@@ -15,11 +15,20 @@ context and the supporting requirements will provide opportunities to better lea
 language and software development techniques.
 ## Learning Objectives
   * Python class construction and usage
+    * By creating a class
   * Python class initialization
+    * By creating an _\_\_init\_\__ method
   * Exceptions
+    * By raising exceptions
+    * By catching exceptions
   * String formatting
+    * By creating methods that produce formatted strings as their result
+    * By formatting exception messages
   * Application design
+    * By creating a class with multiple methods that work together
+    * By considering how users of the class will interact with the calss
   * Refactoring
+    * By changing the internals of a method to enhance the resilience against future changes
 ## Setup
   * Create a python 3 virtual environment
 ```bash
