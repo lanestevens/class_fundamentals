@@ -13,7 +13,7 @@ In this project, we will focus on the transform step of an ETL process.  You wil
 to transform a source row from a CSV (comma-separated values format) file into a reformatted row for a target CSV file.  This
 context and the supporting requirements will provide opportunities to better learn some fundamental features of the Python
 language and software development techniques.
-## Learning Objectives
+## Learning and Skills-Enhancement Objectives
   * Python class construction and usage
     * By creating a class
   * Python class initialization
@@ -29,8 +29,13 @@ language and software development techniques.
   * Application design
     * By creating a class with multiple methods that work together
     * By considering how users of the class will interact with the class
+    * By reviewing the finished product
+    * By viewing the examples to see the finished product in action
   * Refactoring
     * By changing the internals of a method to enhance the resilience against future changes
+  * Software Development
+    * By translating requirements into code
+    * By comparing and contrasting business requirements vs. technical requirements.
 ## Setup
   * Create a python 3 virtual environment
 ```bash
@@ -86,7 +91,8 @@ class MyClass(object):
 
 The name of the class is important because it is intended to be a public class available for inclusion in other code.
 
-__Requirement:__  The name of the class shall be CsvFormatter.
+__Requirement:__  The name of the class shall be CsvFormatter.  This is a business requirement because this is the
+name that is exposed.
 
 In the empty file that you have created, choose one of the three syntax options above and create the class with the correct
 name in order to get the next failing test to pass.
@@ -109,7 +115,8 @@ In order to get the next failing test to pass, we need to define an _\_\_init\_\
 be an empty method that will be evolved through subsequent tests.
 
 __Requirement:__  The class instantiation shall accept exactly one parameter which must be a dictionary.  The keys of the
-dictionary will be column names and the values will be the name of the format specifier to be used for that column.
+dictionary will be column names and the values will be the name of the format specifier to be used for that column.  This is
+a business requirement because it defines how the users of the class will interact with the class.
 
 The name for this parameter will be _format\_map_.  This specific name is exposed to the users of the class in help
 strings and _Exception_ messages.  In this case, the code wouldn't require a specific parameter name, but for the sake of
@@ -146,6 +153,10 @@ __Requirement:__  The message included with the _Exception_ that is raised when 
 
 The format\_map parameter provided to instantiate the class must be a dictionary
 
+The preceding requirement is both a technical requirement and a business requirement.  A technical requirement because the
+specific wording of the message facilitates automated testing.  A business requirement because it is exposed to the user of
+the class.
+
 The following is an example of code that will check the type of the _format\_map_ parameter and raise an _Exception_.  Code
 similar to this will be required to get the next failing test to pass.
 
@@ -159,7 +170,7 @@ class.  One way to accomplish this is to create an attribute that is part of the
 to the value of the parameter that was passed.
 
 __Requirement:__  The name of the instance attribute will be _format\_map_.  The only reason that the name of this is being
-specified as a requirement is so to support the tests.
+specified as a requirement is so to support the tests.  This is a technical requirement.
 
 The following is a statement that would follow the type check in the _\_\_init\_\__ method.  On the left side of the assignment
 we create a new attribute on self and assign the value of the passed format\_map parameter.
@@ -188,12 +199,15 @@ use only within the class.  Creation of an empty method will resolve the next fa
 __Requirement:__  The name of the validator method shall be _\_verify\_map_, and will take as a parameter the format\_map.
 Since this is intended to be a protected method of the class, it normally wouldn't matter what we called it - aside from the
 normal importance of clear and unambiguous names.  In this case, the tests make an assumption about the name of the method, so
-we need the code to match that assumption.
+we need the code to match that assumption.  This is a technical requirement.
 
 __Requirement:__  The supported format specifiers shall be:  _default_, _us\_currency_, _thousands\_us\_currency_,
-_thousands\_integer_, and _integer_.
+_thousands\_integer_, and _integer_.  This is both a technical requirement and a business requirement.  A technical requirement
+because formatting rules need to be identified in an unambiguous way.  A business requirement because it is a meaningful part
+of the class interface and is exposed to the user of the class.
 
-__Requirement:__  This method will raise a _ValueError_ if one or more unsupported format specifiers is found.
+__Requirement:__  This method will raise a _ValueError_ if one or more unsupported format specifiers is found.  This is a
+technical requirement.
 
 __Requirement:__  The message included with the raised exception will include the unsupported format specifiers in alphabetical
 order.  Multiple unsupported format specifiers will be separated by ",\<space\>" and only one instance of each unsupported
@@ -201,8 +215,12 @@ format specifier will be listed in the message.  The message shall be:
 
 Invalid format specifier(s) in map:\<space\>\<space\>\<alphabetical list of unsupported format specifiers\>
 
+The preceding requirement is both a technical requirement and a business requirement.  A technical requirement because the
+specific wording of the message facilitates automated testing.  A business requirement because it is exposed to the user of
+the class.
+
 __Requirement:__  If no unsupported format specifiers are found, then the method returns _None_.  The default action for a
-function or method without a return statement is to return _None_.
+function or method without a return statement is to return _None_.  This is a technical requirement.
 
 There is nothing that we can do to validate the column names, so only the format specifiers will be validated.
 
@@ -292,13 +310,15 @@ To resolve the next 2 failing tests we need to create the _\_fmt\_default_ metho
 Considerations:
   * Why is this method useful?
 #### Step 2 - US Currency Formatter
-__Requirement:__  This is a method that accepts one parameter
+__Requirement:__  This is a method that accepts one parameter.  This is a technical requirement.
 
-__Requirement:__  This returns the value as a float with a precision of 2 decimal places preceded by a $ character.
+__Requirement:__  This returns the value as a float with a precision of 2 decimal places preceded by a $ character.  This is a
+business requirement.
 
-__Requirement:__  The name of this method shall be _\_fmt\_us\_currency_
+__Requirement:__  The name of this method shall be _\_fmt\_us\_currency_.  This is a technical requirement.
 
-__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
+__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.  This is a technical
+requirement with business implications.
 
 To resolve the next 3 failing tests we need to create the _\_fmt\_us_currency_ method.
 ```python
@@ -311,14 +331,15 @@ To resolve the next 3 failing tests we need to create the _\_fmt\_us_currency_ m
 ```
 
 #### Step 3 - US Currency with thousands separators formatter
-__Requirement:__  This is a method that accepts one parameter
+__Requirement:__  This is a method that accepts one parameter.  This is a technical requirement.
 
 __Requirement:__  This returns the value as a float with a precision of 2 decimal places preceded by a $ character and with
-thousands separated by a , character.
+thousands separated by a , character.  This is a business requirement.
 
-__Requirement:__  The name of this method shall be _\_fmt\_thousands\_us\_currency_
+__Requirement:__  The name of this method shall be _\_fmt\_thousands\_us\_currency_.  This is a techincal requirement.
 
-__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
+__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.  This is a technical
+requirement with business implications.
 
 To resolve the next 3 failing tests we need to create the _\_fmt\_thousands\_us\_currency_ method.
 ```python
@@ -333,13 +354,14 @@ Considerations:
   * How is the comma separator formatting controlled?
 
 #### Step 4 - Integer formatter
-__Requirement:__  This is a method that accepts one parameter
+__Requirement:__  This is a method that accepts one parameter.  This is a technical requirement.
 
-__Requirement:__  This returns the value as an integer.  This will remove leading zeros and spaces.
+__Requirement:__  This returns the value as an integer.  This will remove leading zeros and spaces.  This is a busines requirement.
 
-__Requirement:__  The name of this method shall be _\_fmt\_integer_
+__Requirement:__  The name of this method shall be _\_fmt\_integer_.  This is a technical requirement.
 
-__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid integer.
+__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid integer.  This is a technical
+requirement with business implications.
 
 To resolve the next 3 failing tests we need to create the _\_fmt|_integer_ method.
 ```python
@@ -353,13 +375,15 @@ To resolve the next 3 failing tests we need to create the _\_fmt|_integer_ metho
 ```
 
 #### Step 5 - Integer with thousands separator formatter
-__Requirement:__  This is a method that accepts one parameter
+__Requirement:__  This is a method that accepts one parameter.  This is a technical requirement.
 
 __Requirement:__  This returns the value as an integer with commas separating thousands.  This will remove leading zeros and spaces.
+This is a business requirement.
 
-__Requirement:__  The name of this method shall be _\_fmt\_thousands\_integer_
+__Requirement:__  The name of this method shall be _\_fmt\_thousands\_integer_.  This is a technical requirement.
 
-__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid integer.
+__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid integer.  This is a technical
+requirement with business implications.
 
 To resolve the next 3 failing tests we need to create the _\_fmt\_thousands\_integer_ method.
 ```python
@@ -390,15 +414,17 @@ This is a flexible approach to error handling.  With this, the caller can take a
 For example, the offending row could be written to an error file, a notice of the exception could be written and the
 partially modified row could be written to the output, etc.
 #### Step 1 - Main formatter method
-__Requirement:__  This method shall be named _format_.  This is part of the public interface of the _CsvFormatter_ class.
+__Requirement:__  This method shall be named _format_.  This is part of the public interface of the _CsvFormatter_ class.  This
+is a business requirement.
 
 __Requirement:__  This method shall leave the input dictionary unchanged and will return a copy of the input with the format
-modifications.
+modifications.  This is a business requirement.
 
 __Requirement:__  This method shall return a tuple where the first element is a list of the column names where formatting
-exceptions occurred and the second element is the modified record.
+exceptions occurred and the second element is the modified record.  This is a technical requirement with businss implications.
 
-__Requirement:__  Any input columns without formatting specifications shall use the default format rule.
+__Requirement:__  Any input columns without formatting specifications shall use the default format rule.  This is a business
+requirement.
 
 The complete creation of the _format_ method will resolve the next 6 failing tests.
 ```python
