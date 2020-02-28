@@ -142,6 +142,24 @@ def test_unknown_values():
         msg = 'Incorrect message returned from the exception:  "{:s}."  The expected message is:  "{:s}."  Please see tasks and requirements'.format(e.args[0], expected_message)
         assert e.args[0] == expected_message, format_msg(msg)
 
+def test_only_one_each():
+    """
+    It should only list an unknown format specifier once per invalid specifier.
+    """
+    csv_formatter = CsvFormatter({})
+    try:
+        csv_formatter._verify_map({'column1': 'unknown1', 'column2': 'unknown1', 'column3': 'an_unknown'})
+        msg = 'The _verify_map method must raise an exception if there are invalid format specifiers'
+        assert False, format_msg(msg)
+    except ValueError as e:
+        if not e.args:
+            msg = 'It is expected that the ValueError exception include a descriptive message, but none was provided'
+            assert False, format_msg(msg)
+            
+        expected_message = 'Invalid format specifier(s) in map:  an_unknown, unknown1'
+        msg = 'Incorrect message returned from the exception:  "{:s}."  The expected message is:  "{:s}."  Please see tasks and requirements'.format(e.args[0], expected_message)
+        assert e.args[0] == expected_message, format_msg(msg)
+
 def test_known_values():
     """
     It should not raise an exception if there are not any invalid format specifiers.
