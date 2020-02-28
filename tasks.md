@@ -32,11 +32,14 @@ language and software development techniques.
     * By considering how users of the class will interact with the class
     * By reviewing the finished product
     * By viewing the examples to see the finished product in action
+  * Data Abstraction
+    * By considering how data from a CSV source is represented
   * Refactoring
     * By changing the internals of a method to enhance the resilience against future changes
   * Software Development
     * By translating requirements into code
     * By comparing and contrasting business requirements vs. technical requirements.
+    * By reviewing the automated tests
 ## Setup
   * Create a python 3 virtual environment
 ```bash
@@ -260,6 +263,10 @@ failing test to pass.
 ```python
         self._verify_map(format_map)
 ```
+
+For consideration:
+  * Why is this statement sufficient?
+  * How does error get signalled to the calling code?
 
 At this point, your class definition should look similar to this:
 
