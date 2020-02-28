@@ -429,7 +429,7 @@ __Requirement:__  This method shall leave the input dictionary unchanged and wil
 modifications.  This is a business requirement.
 
 __Requirement:__  This method shall return a tuple where the first element is a list of the column names where formatting
-exceptions occurred and the second element is the modified record.  This is a technical requirement with businss implications.
+exceptions occurred and the second element is the modified record.  This is a technical requirement with business implications.
 
 __Requirement:__  Any input columns without formatting specifications shall use the default format rule.  This is a business
 requirement.
