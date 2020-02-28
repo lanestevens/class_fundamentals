@@ -315,7 +315,7 @@ To resolve the next 2 failing tests we need to create the _\_fmt\_default_ metho
     def _fmt_default(self, val):
         return val
 ```
-Considerations:
+For Consideration:
   * Why is this method useful?
 #### Task 4:  Step 2 - US Currency Formatter
 __Requirement:__  This is a method that accepts one parameter.  This is a technical requirement.
@@ -358,7 +358,7 @@ To resolve the next 3 failing tests we need to create the _\_fmt\_thousands\_us\
         except (ValueError, TypeError) as e:
             raise ValueError('The value "{:s}" is not valid for the thousands_us_currency formatter'.format(str(val)))
 ```
-Considerations:
+For Consideration:
   * How is the comma separator formatting controlled?
 
 #### Task 4:  Step 4 - Integer formatter
@@ -402,7 +402,7 @@ To resolve the next 3 failing tests we need to create the _\_fmt\_thousands\_int
         except (ValueError, TypeError) as e:
             raise ValueError('The value "{:s}" is not valid for the thousands_integer formatter'.format(str(val)))
 ```
-Considerations
+For Consideration:
   * How is the thousands comma separator controlled?
 
 ### Task 5 - The Main Event
@@ -451,7 +451,7 @@ The complete creation of the _format_ method will resolve the next 6 failing tes
         return sorted(failed_formats), new_record
 ```
 
-Considerations:
+For Consideration:
   * How does the statement in the try block that determines the new value work?
 ### Task 6 - Refactor
 As we gain some experience with a new development effort we may recognize that there are some improvements that can be
