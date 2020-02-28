@@ -231,6 +231,36 @@ failing test to pass.
         self._verify_map(format_map)
 ```
 
+At this point, your class definition should look similar to this:
+
+```python
+class CsvFormatter:
+    def __init__(self, format_map):
+        """
+        Validate and initialize the format_map
+        """
+        if not isinstance(format_map, dict):
+            raise TypeError('The format_map parameter provided to instantiate the class must be a dictionary')
+        self._verify_map(format_map)
+        self.format_map = format_map
+
+    def _verify_map(self, format_map):
+        """
+        Validates the format_map looking for unknown format specifiers.  The format
+        specifiers are considered to be valid if the instance has a method with a
+        name that matches the pattern _fmt_<format_specifier>.
+        """
+        invalid_formats = set([])
+        for value in format_map.values():
+            if not hasattr(self, '_fmt_{:s}'.format(value)):
+                invalid_formats.add(value)
+
+        if invalid_formats:
+            format_names = ', '.join(sorted(invalid_formats))
+            msg = 'Invalid format specifier(s) in map:  {:s}'.format(format_names)
+            raise ValueError(msg)
+```
+
 ### Task 4 - Formatters
 For this next task, we'll create the 5 formatter methods that implement each of the supported formats.  With the exception of the
 default formatter which only has 2 tests, the other formatter methods have 3 tests each:  the method must exist, it must
