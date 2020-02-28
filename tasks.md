@@ -70,10 +70,10 @@ ptw -- -x -vv
 
 ## Tasks
 ### Task 1 - Create a Class
-#### Step 1 - Create a file
+#### Task 1:  Step 1 - Create a file
 The first step is to create a file named fmt.py in the src directory of your project root.  To get the failing
 test to pass, it is enough to create an empty file.
-#### Step 2 - Create an empty class
+#### Task 1:  Step 2 - Create an empty class
 In this step we create an empty class in order to get the test to pass.  There are three options for specifying the class and
 all three are equivalent in terms of this project.  The first pattern omits the parentheses for class inheritance.  The second
 provides an empty parenthesized inheritance, and the third inherits from the _object_ class.  The default class in Python 3 is
@@ -111,7 +111,7 @@ provided following the _self_ parameter.
 
 A Python method is defined in the same way that a Python function is defined except that a method is defined within
 the class definition.
-#### Step 1 - Override initialization method
+#### Task 2:  Step 1 - Override initialization method
 In order to get the next failing test to pass, we need to define an _\_\_init\_\__ method in the _CsvFormatter_ class.  This can
 be an empty method that will be evolved through subsequent tests.
 
@@ -129,7 +129,7 @@ class CsvFormatter:
     def __init__(self, format_map):
         pass
 ```
-#### Step 2 - Check parameter type
+#### Task 2:  Step 2 - Check parameter type
 As noted in the previous step, the parameter must be of type dictionary.  In order to get the next failing test to pass,
 we need to raise a _TypeError_ exception in the case where the supplied parameter is not a dictionary.  At this point in
 the development of the initialization method, we are not going to concern ourselves with whether the contents of the
@@ -165,7 +165,7 @@ similar to this will be required to get the next failing test to pass.
         if not isinstance(format_map, dict):
             raise TypeError('The format_map parameter provided to instantiate the class must be a dictionary')
 ```
-#### Step 3 - Initialize state
+#### Task 2:  Step 3 - Initialize state
 In order to keep the value of the format\_map for subsequent usage it must become part of the state of the _CsvFormatter_
 class.  One way to accomplish this is to create an attribute that is part of the instance and set the value of the attribute
 to the value of the parameter that was passed.
@@ -192,7 +192,7 @@ We have validated the type of the format\_map, but we haven't validate the conte
 a new method in our class to validate that all of the format specifiers indicated are supported by our _CsvFormatter_ class.  Once
 we have created the validator method, we can call the method from the _\_\_init\_\__ method and signal an error when
 we encounter unsupported format specifiers.
-#### Step 1 - Create a validator method
+#### Task 3:  Step 1 - Create a validator method
 For this project, we will use a method to validate the values in the format\_map dictionary.  We will use a leading underscore
 in the name of the method to signal to users of the _CsvFormatter_ class that the method is protected and is intended for
 use only within the class.  Creation of an empty method will resolve the next failing test.
@@ -252,7 +252,7 @@ For consideration:
   * What does the join method on strings do?
   * What does the values method on dictionaries do?
 
-#### Step 2 - Call the validator method from the initialization method
+#### Task 3:  Step 2 - Call the validator method from the initialization method
 Now that we have a method that will correctly validate a format\_map dictionary, we need to finish the _\_\_init\_\__
 method by validating the input.  Adding a call to the _\_verify\_map_ method will accomplish this and cause the next
 failing test to pass.
@@ -295,7 +295,7 @@ class CsvFormatter:
 For this next task, we'll create the 5 formatter methods that implement each of the supported formats.  With the exception of the
 default formatter which only has 2 tests, the other formatter methods have 3 tests each:  the method must exist, it must
 correctly raise a ValueError if the input value is not valid for the format specified, and a test for a successful format.
-#### Step 1 - Default Formatter
+#### Task 4:  Step 1 - Default Formatter
 __Requirement:__  This is a method that accepts one parameter.
 
 __Requirement:__  This returns the input value unmodified.
@@ -310,7 +310,7 @@ To resolve the next 2 failing tests we need to create the _\_fmt\_default_ metho
 ```
 Considerations:
   * Why is this method useful?
-#### Step 2 - US Currency Formatter
+#### Task 4:  Step 2 - US Currency Formatter
 __Requirement:__  This is a method that accepts one parameter.  This is a technical requirement.
 
 __Requirement:__  This returns the value as a float with a precision of 2 decimal places preceded by a $ character.  This is a
@@ -331,7 +331,7 @@ To resolve the next 3 failing tests we need to create the _\_fmt\_us_currency_ m
             raise ValueError('The value "{:s}" is not valid for the us_currency formatter'.format(str(val)))
 ```
 
-#### Step 3 - US Currency with thousands separators formatter
+#### Task 4:  Step 3 - US Currency with thousands separators formatter
 __Requirement:__  This is a method that accepts one parameter.  This is a technical requirement.
 
 __Requirement:__  This returns the value as a float with a precision of 2 decimal places preceded by a $ character and with
@@ -354,7 +354,7 @@ To resolve the next 3 failing tests we need to create the _\_fmt\_thousands\_us\
 Considerations:
   * How is the comma separator formatting controlled?
 
-#### Step 4 - Integer formatter
+#### Task 4:  Step 4 - Integer formatter
 __Requirement:__  This is a method that accepts one parameter.  This is a technical requirement.
 
 __Requirement:__  This returns the value as an integer.  This will remove leading zeros and spaces.  This is a busines requirement.
@@ -375,7 +375,7 @@ To resolve the next 3 failing tests we need to create the _\_fmt|_integer_ metho
 
 ```
 
-#### Step 5 - Integer with thousands separator formatter
+#### Task 4:  Step 5 - Integer with thousands separator formatter
 __Requirement:__  This is a method that accepts one parameter.  This is a technical requirement.
 
 __Requirement:__  This returns the value as an integer with commas separating thousands.  This will remove leading zeros and spaces.
@@ -414,7 +414,7 @@ unchanged.
 This is a flexible approach to error handling.  With this, the caller can take any of several actions when an error occurs.
 For example, the offending row could be written to an error file, a notice of the exception could be written and the
 partially modified row could be written to the output, etc.
-#### Step 1 - Main formatter method
+#### Task 5:  Step 1 - Main formatter method
 __Requirement:__  This method shall be named _format_.  This is part of the public interface of the _CsvFormatter_ class.  This
 is a business requirement.
 
@@ -454,7 +454,7 @@ be necessary to also update the _\_verify\_map_ method.
 
 The final task is to refactor the _\_verify\_map_ method to use introspection of the _CsvFormatter_ class to determine
 what the supported format specifiers are.
-#### Step 1 - Refactor the validation method to be dynamic
+#### Task 6:  Step 1 - Refactor the validation method to be dynamic
 In order to get the final failing test to pass, we must revise the _\_verify\_map_ method to compare the specified format
 specifiers to against the methods of the class to determine if the specifier is valid or not.
 
