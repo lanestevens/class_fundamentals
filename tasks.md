@@ -8,7 +8,7 @@ system.
 
 Python is well suited to each of these three data-migration steps.  To make the most effective use of Python in this use case or
 to solve other complex problems demands the effective use of the features and modules that are suited to the task at hand, and
-to attention paid to the design of the system and the overall architecture into which it fits.
+attention paid to the design of the system and the overall architecture into which it fits.
 
 In this project, we will focus on the transform step of an ETL process.  You will build a Python _class_ that will be used
 to transform a source row from a CSV (comma-separated values format) file into a reformatted row for a target CSV file.  This
