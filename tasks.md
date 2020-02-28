@@ -5,9 +5,9 @@ In the extract step, data are retrieved from the source system.  In the transfor
 modified in other ways in order to be compatible with the target system. The load step involves pushing the data into the target
 system.
 
-Python is well suited to each of these three data-migration steps, but to make the most effective use of Python in this or
+Python is well suited to each of these three data-migration steps.  To make the most effective use of Python in this use case or
 to solve other complex problems demands the effective use of the features and modules that are suited to the task at hand, and
-to pay attention to the design of the system and the overall architecture into which it fits.
+to attention paid to the design of the system and the overall architecture into which it fits.
 
 In this project, we will focus on the transform step of an ETL process.  You will build a Python _class_ that will be used
 to transform a source row from a CSV (comma-separated values format) file into a reformatted row for a target CSV file.  This
@@ -30,11 +30,11 @@ python -m venv my_project
 cd my_project
 ```
   * Activate the virtual environment
-    * Mac/Linux ```source bin/activate```
-    * Windows ```Scripts\activate```
+    * Mac/Linux: ```source bin/activate```
+    * Windows: ```Scripts\activate```
   * Clone the project repository as a child of the virtual environment directory with resulting directory structure as:
-    * Mac/Linux ```my_project/class_fundamentals```
-    * Windows ```my_project\class_fundamentals```
+    * Mac/Linux: ```my_project/class_fundamentals```
+    * Windows: ```my_project\class_fundamentals```
 ```bash
 git clone <project url>
 ```
@@ -46,7 +46,7 @@ cd class_fundamentals
 ```bash
 pip install -r requirements.txt
 ```
-  * Start tests - the tests will run whenever files are changed.  The failing test is the first step in the tasks below.
+  * Start tests - the tests will run whenever files are changed.  The failing test that you see here will be resolved through the first step in the tasks below.
 ```bash
 ptw -- -x -vv
 ```
@@ -87,20 +87,20 @@ customize the class instance initialization method to perform tasks that will pl
 Upon creation, the CsvFormatter class will need to accept a map of format specifiers that indicate how columns of the source
 records are to be formatted to create the output record.
 
-The instance initialization method in a Python class is the \_\_init\_\_ method.  When defining a method in a Python class,
+The instance initialization method in a Python class is the _\_\_init\_\__ method.  When defining a method in a Python class,
 the first parameter is a reference to the class instance.  By convention this is named _self_.  Additional parameters are
 provided following the _self_ parameter.
 
 A Python method is defined in the same way that a Python function is defined except that a method is defined within
 the class definition.
 #### Step 1 - Override initialization method
-In order to get the next failing test to pass, we need to define an \_\_init\_\_ method in the CsvFormatter class.  This can
+In order to get the next failing test to pass, we need to define an _\_\_init\_\__ method in the _CsvFormatter_ class.  This can
 be an empty method that will be evolved through subsequent tests.
 
 __Requirement:__  The class instantiation shall accept exactly one parameter which must be a dictionary.  The keys of the
 dictionary will be column names and the values will be the name of the format specifier to be used for that column.
 
-I have chosen _format\_map_ as the name of this parameter.  This specific name is exposed to the users of the class in help
+The name for this parameter will be _format\_map_.  This specific name is exposed to the users of the class in help
 strings and _Exception_ messages.  In this case, the code wouldn't require a specific parameter name, but for the sake of
 consistency, and due to the fact that it is exposed to the user of the class, we will treat the name _format\_map_ as a
 requirement.
@@ -150,7 +150,7 @@ to the value of the parameter that was passed.
 __Requirement:__  The name of the instance attribute will be _format\_map_.  The only reason that the name of this is being
 specified as a requirement is so to support the tests.
 
-The following is a statement that would follow the type check in the \_\_init\_\_ method.  On the left side of the assignment
+The following is a statement that would follow the type check in the _\_\_init\_\__ method.  On the left side of the assignment
 we create a new attribute on self and assign the value of the passed format\_map parameter.
 ```python
         self.format_map = format_map
@@ -165,14 +165,14 @@ class CsvFormatter:
         self.format_map = format_map
 ```
 ### Task 3 - Validation
-We have validated the type of the format\_map, but we haven't validate the contents of the format\_map.  We will use
-a new method to validate that all of the format specifiers indicated are supported by our _CsvFormatter_ class.  Once
-we have created the validator method, we can call the method from the \_\_init\_\_ method and signal an error when
+We have validated the type of the format\_map, but we haven't validate the contents of the format\_map.  We will create
+a new method in our class to validate that all of the format specifiers indicated are supported by our _CsvFormatter_ class.  Once
+we have created the validator method, we can call the method from the _\_\_init\_\__ method and signal an error when
 we encounter unsupported format specifiers.
 #### Step 1 - Create a validator method
 For this project, we will use a method to validate the values in the format\_map dictionary.  We will use a leading underscore
 in the name of the method to signal to users of the _CsvFormatter_ class that the method is protected and is intended for
-use only within the class.
+use only within the class.  Creation of an empty method will resolve the next failing test.
 
 __Requirement:__  The name of the validator method shall be _\_verify\_map_, and will take as a parameter the format\_map.
 Since this is intended to be a protected method of the class, it normally wouldn't matter what we called it - aside from the
@@ -198,7 +198,7 @@ There is nothing that we can do to validate the column names, so only the format
 The following illustrates a valid and an invalid format\_map.
 ```python
 valid = {'column1': 'default', 'column2': 'us_currency'}
-invalid = {'column1': 'default', 'column2': 'unknown'}
+invalid = {'column1': 'default', 'column2': 'bad_format_specifier}
 ```
 
 To get the next three failing tests to pass, the method must exist, it must correctly detect unsupported format specifiers,
@@ -223,7 +223,7 @@ For consideration:
   * What does the values method on dictionaries do?
 
 #### Step 2 - Call the validator method from the initialization method
-Now that we have a method that will correctly validate a format\_map dictionary, we need to finish the \_\_init\_\_
+Now that we have a method that will correctly validate a format\_map dictionary, we need to finish the _\_\_init\_\__
 method by validating the input.  Adding a call to the _\_verify\_map_ method will accomplish this and cause the next
 failing test to pass.
 
@@ -232,7 +232,7 @@ failing test to pass.
 ```
 
 ### Task 4 - Formatters
-For this next task, we'll create the 5 formatter methods that implement that supported formats.  With the exception of the
+For this next task, we'll create the 5 formatter methods that implement each of the supported formats.  With the exception of the
 default formatter which only has 2 tests, the other formatter methods have 3 tests each:  the method must exist, it must
 correctly raise a ValueError if the input value is not valid for the format specified, and a test for a successful format.
 #### Step 1 - Default Formatter
@@ -242,10 +242,14 @@ __Requirement:__  This returns the input value unmodified.
 
 __Requirement:__  The name of this method is _\_fmt\_default_
 
+To resolve the next 2 failing tests we need to create the _\_fmt\_default_ method.
+
 ```python
     def _fmt_default(self, val):
         return val
 ```
+Considerations:
+  * Why is this method useful?
 #### Step 2 - US Currency Formatter
 __Requirement:__  This is a method that accepts one parameter
 
@@ -255,6 +259,7 @@ __Requirement:__  The name of this method shall be _\_fmt\_us\_currency_
 
 __Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
 
+To resolve the next 3 failing tests we need to create the _\_fmt\_us_currency_ method.
 ```python
     def _fmt_us_currency(self, val):
         try:
@@ -274,6 +279,7 @@ __Requirement:__  The name of this method shall be _\_fmt\_thousands\_us\_curren
 
 __Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
 
+To resolve the next 3 failing tests we need to create the _\_fmt\_thousands\_us\_currency_ method.
 ```python
     def _fmt_thousands_us_currency(self, val):
         try:
@@ -292,8 +298,9 @@ __Requirement:__  This returns the value as an integer.  This will remove leadin
 
 __Requirement:__  The name of this method shall be _\_fmt\_integer_
 
-__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
+__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid integer.
 
+To resolve the next 3 failing tests we need to create the _\_fmt|_integer_ method.
 ```python
     def _fmt_integer(self, val):
         try:
@@ -311,8 +318,9 @@ __Requirement:__  This returns the value as an integer with commas separating th
 
 __Requirement:__  The name of this method shall be _\_fmt\_thousands\_integer_
 
-__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid float.
+__Requirement:__  This method shall raise a ValueError if the input value does not represent a valid integer.
 
+To resolve the next 3 failing tests we need to create the _\_fmt\_thousands\_integer_ method.
 ```python
     def _fmt_thousands_integer(self, val):
         try:
@@ -330,8 +338,8 @@ on a column-by-column basis.  Each row is represented by a dictionary where the 
 key is the corresponding value of that column in the row.  This method will be called for each row of data in a csv file.
 
 For this project, the method will return a tuple of two values.  The first value is a list of the column headers for the
-columns that had formatting exceptions raised.  The second value is the modified row.  Any row with a formatting exception
-will remain unchanged from the input row, and all of the other values will be modified according to the rules specified
+columns that had formatting exceptions raised.  The second value is the modified row as a dictionary.  Any column with a formatting
+exception will remain unchanged from the input row, and all of the other values will be modified according to the rules specified
 in the format\_map.
 
 Any column that does not include a format specifier will have the default rule applied.  The default rule will leave the value
@@ -341,7 +349,7 @@ This is a flexible approach to error handling.  With this, the caller can take a
 For example, the offending row could be written to an error file, a notice of the exception could be written and the
 partially modified row could be written to the output, etc.
 #### Step 1 - Main formatter method
-__Requirement:__  This method shall be named _format_.
+__Requirement:__  This method shall be named _format_.  This is part of the public interface of the _CsvFormatter_ class.
 
 __Requirement:__  This method shall leave the input dictionary unchanged and will return a copy of the input with the format
 modifications.
@@ -351,6 +359,7 @@ exceptions occurred and the second element is the modified record.
 
 __Requirement:__  Any input columns without formatting specifications shall use the default format rule.
 
+The complete creation of the _format_ method will resolve the next 6 failing tests.
 ```python
     def format(self, record):
         if not isinstance(record, dict):
@@ -368,11 +377,11 @@ __Requirement:__  Any input columns without formatting specifications shall use 
 ```
 
 Considerations:
-  * How does the statement the try block that determines the new value work?
+  * How does the statement in the try block that determines the new value work?
 ### Task 6 - Refactor
 As we gain some experience with a new development effort we may recognize that there are some improvements that can be
 made to the way that a component was designed, or even improvements to the overall application architecture.  In the
-case of this project, we are maintaining a list of format methods, and so should we add support for other formats it will
+case of this project, we are maintaining a list of format methods, and so if we add support for additional formats it will
 be necessary to also update the _\_verify\_map_ method.
 
 The final task is to refactor the _\_verify\_map_ method to use introspection of the _CsvFormatter_ class to determine
